@@ -83,9 +83,9 @@ autoUpdater.on('error', info => {
 
 autoUpdater.on('download-progress', (processObj) => {
   // let text = `下载速度${processObj.bytesPerSecond}，已下载${processObj.percent}%（${processObj.transferred}/${processObj.total}）`
-  const processInfo = `下载进度：${processObj.percent}%`
-
-  sendAutoUpdateStatus(processInfo)
+  // const processInfo = `下载进度：${processObj.percent}%`
+  console.log(processObj)
+  sendAutoUpdateStatus('正在下载...')
 })
 
 autoUpdater.on('update-downloaded', () => {
