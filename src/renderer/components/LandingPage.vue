@@ -24,6 +24,7 @@
           <button class="alt" @click="open('https://electron.atom.io/docs/')">Electron</button>
           <button class="alt" @click="open('https://vuejs.org/v2/guide/')">Vue.js</button>
           <p>
+            <span>当前版本：{{appVersion}}</span>
             <a href="javascript:;" @click="checkUpdate">检查更新</a>
           </p>
           <p>{{updateStatus}}</p>
@@ -41,8 +42,14 @@
     components: { SystemInformation },
     data () {
       return {
+        appVersion: '',
         updateStatus: ''
       }
+    },
+    mounted () {
+      const app = this.$electron.remote.app
+
+      this.appVersion = app.getVersion()
     },
     methods: {
       open (link) {
