@@ -42,7 +42,7 @@ function sendAutoUpdateStatus (text) {
 }
 
 ipcMain.on('checkUpdate', (event, arg) => {
-  autoUpdater.checkForUpdates()
+  autoUpdater.checkForUpdatesAndNotify()
 })
 
 app.on('window-all-closed', () => {
@@ -69,8 +69,7 @@ autoUpdater.on('checking-for-update', () => {
 })
 
 autoUpdater.on('update-available', info => {
-  sendAutoUpdateStatus('发现新版本～，开始下载...')
-  autoUpdater.downloadUpdate()
+  sendAutoUpdateStatus('发现新版本～')
 })
 
 autoUpdater.on('update-not-available', info => {
@@ -83,12 +82,13 @@ autoUpdater.on('error', info => {
 
 autoUpdater.on('download-progress', (processObj) => {
   // let text = `下载速度${processObj.bytesPerSecond}，已下载${processObj.percent}%（${processObj.transferred}/${processObj.total}）`
-  let text = `已下载${parseInt(processObj.percent)}%`
+  const processInfo = `下载进度：${processObj.percent}%`
 
-  sendAutoUpdateStatus(text)
+  sendAutoUpdateStatus(processInfo)
 })
 
 autoUpdater.on('update-downloaded', () => {
+  sendAutoUpdateStatus('下载完成，准备安装更新～')
   autoUpdater.quitAndInstall()
 })
 
