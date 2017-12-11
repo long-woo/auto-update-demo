@@ -1,6 +1,6 @@
 {
   "name": "auto-update-demo",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "long.woo <longwunet@outlook.com>",
   "description": "electron自动更新demo",
   "license": "MIT",
