@@ -42,7 +42,7 @@ function sendAutoUpdateStatus (text) {
 }
 
 ipcMain.on('checkUpdate', (event, arg) => {
-  autoUpdater.checkForUpdates()
+  autoUpdater.checkForUpdatesAndNotify()
 })
 
 app.on('window-all-closed', () => {
