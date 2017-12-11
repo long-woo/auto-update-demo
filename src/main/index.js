@@ -42,7 +42,7 @@ function sendAutoUpdateStatus (text) {
 }
 
 ipcMain.on('checkUpdate', (event, arg) => {
-  autoUpdater.checkForUpdatesAndNotify()
+  autoUpdater.checkForUpdates()
 })
 
 app.on('window-all-closed', () => {
@@ -70,7 +70,7 @@ autoUpdater.on('checking-for-update', () => {
 
 autoUpdater.on('update-available', info => {
   sendAutoUpdateStatus('发现新版本～，开始下载...')
-  // autoUpdater.downloadUpdate()
+  autoUpdater.downloadUpdate()
 })
 
 autoUpdater.on('update-not-available', info => {
