@@ -2,6 +2,10 @@
 
 import { app, BrowserWindow, ipcMain } from 'electron'
 import { autoUpdater } from 'electron-updater'
+import log from 'electron-log'
+
+autoUpdater.logger = log
+autoUpdater.logger.transports.file.level = 'info'
 
 /**
  * Set `__static` path to static files in production
@@ -39,6 +43,7 @@ function createWindow () {
  * @param {*} text 更新描述
  */
 function sendAutoUpdateStatus (text) {
+  log.info(text)
   mainWindow.webContents.send('autoUpdateStatus', text)
 }
 
@@ -70,21 +75,24 @@ autoUpdater.on('checking-for-update', () => {
 })
 
 autoUpdater.on('update-available', info => {
-  sendAutoUpdateStatus('发现新版本～')
+  sendAutoUpdateStatus(`发现新版本（${info.version}）～，准备开始下载...`)
+  log.info(JSON.stringify(info))
 })
 
 autoUpdater.on('update-not-available', info => {
   sendAutoUpdateStatus('已经是最新版本~')
+  log.info(JSON.stringify(info))
 })
 
 autoUpdater.on('error', info => {
   sendAutoUpdateStatus(`更新出错：${info}`)
 })
 
-autoUpdater.on('download-progress', () => {
+autoUpdater.on('download-progress', (progressInfo) => {
   // let text = `下载速度${processObj.bytesPerSecond}，已下载${processObj.percent}%（${processObj.transferred}/${processObj.total}）`
-  // const processInfo = `下载进度：${processObj.percent}%`
-  sendAutoUpdateStatus('正在下载...')
+  const info = `下载进度：${progressInfo.percent}%`
+  sendAutoUpdateStatus(info)
+  log.info(JSON.stringify(progressInfo))
 })
 
 autoUpdater.on('update-downloaded', () => {
