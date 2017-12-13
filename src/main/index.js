@@ -4,8 +4,8 @@ import { app, BrowserWindow, ipcMain } from 'electron'
 import { autoUpdater } from 'electron-updater'
 import log from 'electron-log'
 
+log.transports.file.level = 'debug'
 autoUpdater.logger = log
-autoUpdater.logger.transports.file.level = 'info'
 
 /**
  * Set `__static` path to static files in production
